@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\sinia\\Source\\Repos\\MokkiApp\\MokkiApp2.0\\MokkiApp\\MokkiAppTests\\MokkiAppTests.csproj": {}
+    "C:\\Users\\sinia\\source\\repos\\MokkiApp\\MokkiApp2.0\\MokkiApp\\MokkiAppTests\\MokkiAppTests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\sinia\\Source\\Repos\\MokkiApp\\MokkiApp2.0\\MokkiApp\\MokkiAppTests\\MokkiAppTests.csproj": {
+    "C:\\Users\\sinia\\source\\repos\\MokkiApp\\MokkiApp2.0\\MokkiApp\\MokkiAppTests\\MokkiAppTests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sinia\\Source\\Repos\\MokkiApp\\MokkiApp2.0\\MokkiApp\\MokkiAppTests\\MokkiAppTests.csproj",
+        "projectUniqueName": "C:\\Users\\sinia\\source\\repos\\MokkiApp\\MokkiApp2.0\\MokkiApp\\MokkiAppTests\\MokkiAppTests.csproj",
         "projectName": "MokkiAppTests",
-        "projectPath": "C:\\Users\\sinia\\Source\\Repos\\MokkiApp\\MokkiApp2.0\\MokkiApp\\MokkiAppTests\\MokkiAppTests.csproj",
+        "projectPath": "C:\\Users\\sinia\\source\\repos\\MokkiApp\\MokkiApp2.0\\MokkiApp\\MokkiAppTests\\MokkiAppTests.csproj",
         "packagesPath": "C:\\Users\\sinia\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\sinia\\Source\\Repos\\MokkiApp\\MokkiApp2.0\\MokkiApp\\MokkiAppTests\\obj\\",
         "projectStyle": "PackageReference",

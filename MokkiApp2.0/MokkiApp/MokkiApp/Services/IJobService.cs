@@ -1,4 +1,5 @@
 ﻿using MokkiApp.Models;
+
 namespace MokkiApp.Services
 {
     public interface IJobService

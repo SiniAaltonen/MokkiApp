@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "El/LcHYLHfP/6P64howd0NQniYTePkP8ou99kpoE1LzeNOcQhw7S5i2dDAEaiGSwMCkpRFwHY4msndhREON46Q==",
+  "dgSpecHash": "lUO/c9yLfBv5Fjyz1Q3BLgyiizC6G8eEkq8762ON38wXZmmYsj8Htz+OmjBu5PX5G1Y/ic7n11k4tKNEtw28+Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\sinia\\Source\\Repos\\MokkiApp\\MokkiApp2.0\\MokkiApp\\MokkiAppTests\\MokkiAppTests.csproj",
+  "projectFilePath": "C:\\Users\\sinia\\source\\repos\\MokkiApp\\MokkiApp2.0\\MokkiApp\\MokkiAppTests\\MokkiAppTests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sinia\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
     "C:\\Users\\sinia\\.nuget\\packages\\microsoft.codecoverage\\17.3.2\\microsoft.codecoverage.17.3.2.nupkg.sha512",

@@ -28,7 +28,7 @@ namespace MokkiApp.Controllers
             return Ok(await _jobService.GetAllJobsAsync());
         }
 
-        //GET: api/Jobs/
+        //GET: api/Jobs/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Job>> GetJobAsync(int id)
         {

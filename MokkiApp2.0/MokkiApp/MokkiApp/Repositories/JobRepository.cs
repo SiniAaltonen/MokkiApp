@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MokkiApp.Models;
+
 namespace MokkiApp.Repositories
 {
     public class JobRepository : IJobRepository

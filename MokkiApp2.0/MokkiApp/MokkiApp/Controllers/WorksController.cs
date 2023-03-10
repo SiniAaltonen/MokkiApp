@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MokkiApp.Models;
+using MokkiApp.Services;
 
 namespace MokkiApp.Controllers
 {
@@ -13,25 +14,25 @@ namespace MokkiApp.Controllers
     [ApiController]
     public class WorksController : ControllerBase
     {
-        private readonly MokkiAppDbContext _context;
+        private readonly IWorkService _workService;
 
-        public WorksController(MokkiAppDbContext context)
+        public WorksController(IWorkService workService)
         {
-            _context = context;
+            _workService = workService ?? throw new ArgumentNullException(nameof(workService));
         }
 
-        // GET: api/Works
+        // GET: api/Jobs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Work>>> GetWorks()
+        public async Task<ActionResult<IEnumerable<Work>>> GetAllWorksAsync()
         {
-            return await _context.Works.ToListAsync();
+            return Ok(await _workService.GetAllWorksAsync());
         }
 
         // GET: api/Works/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Work>> GetWork(int id)
+        public async Task<ActionResult<Work>> GetWorkAsync(int id)
         {
-            var work = await _context.Works.FindAsync(id);
+            var work = await _workService.GetWorkAsync(id);
 
             if (work == null)
             {
@@ -43,63 +44,59 @@ namespace MokkiApp.Controllers
 
         // PUT: api/Works/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutWork(int id, Work work)
+        public async Task<ActionResult> UpdateWork(int id, Work work)
         {
-            if (id != work.Id)
+            if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            _context.Entry(work).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                var theWork = await _workService.UpdateWork(id, work);
+                return Ok(theWork);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception e)
             {
-                if (!WorkExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest(e.Message);
             }
-
-            return NoContent();
         }
 
         // POST: api/Works
         [HttpPost]
-        public async Task<ActionResult<Work>> PostWork(Work work)
+        public async Task<ActionResult<Work>> AddWork(Work work)
         {
-            _context.Works.Add(work);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetWork", new { id = work.Id }, work);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var theWork = await _workService.AddWork(work);
+            return Ok(theWork);
         }
 
         // DELETE: api/Works/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWork(int id)
+        public async Task<ActionResult> DeleteWork(int id)
         {
-            var work = await _context.Works.FindAsync(id);
-            if (work == null)
+            try
             {
-                return NotFound();
+                if (ModelState.IsValid)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
-
-            _context.Works.Remove(work);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool WorkExists(int id)
-        {
-            return _context.Works.Any(e => e.Id == id);
+            catch (NullReferenceException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
     }
 }

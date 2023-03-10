@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MokkiApp.Models;
+using MokkiApp.Services;
 
 namespace MokkiApp.Controllers
 {
@@ -13,25 +14,25 @@ namespace MokkiApp.Controllers
     [ApiController]
     public class PlacesController : ControllerBase
     {
-        private readonly MokkiAppDbContext _context;
+        private readonly IPlaceService _placeService;
 
-        public PlacesController(MokkiAppDbContext context)
+        public PlacesController(IPlaceService placeService)
         {
-            _context = context;
+            _placeService = placeService ?? throw new ArgumentNullException(nameof(placeService));
         }
 
         // GET: api/Places
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Place>>> GetPlaces()
+        public async Task<ActionResult<IEnumerable<Place>>> GetAllPlaces()
         {
-            return await _context.Places.ToListAsync();
+            return Ok(await _placeService.GetAllPlacesAsync());
         }
 
         // GET: api/Places/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Place>> GetPlace(int id)
+        public async Task<ActionResult<Place>> GetPlaceAsync(int id)
         {
-            var place = await _context.Places.FindAsync(id);
+            var place = await _placeService.GetPlaceAsync(id);
 
             if (place == null)
             {
@@ -43,63 +44,55 @@ namespace MokkiApp.Controllers
 
         // PUT: api/Places/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPlace(int id, Place place)
+        public async Task<IActionResult> UpdatePlace(int id, Place place)
         {
             if (id != place.Id)
             {
                 return BadRequest();
             }
-
-            _context.Entry(place).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                var thePlace = await _placeService.UpdatePlace(id, place);
+                return Ok(thePlace);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception e)
             {
-                if (!PlaceExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest(e.Message);
             }
-
-            return NoContent();
         }
 
         // POST: api/Places
         [HttpPost]
-        public async Task<ActionResult<Place>> PostPlace(Place place)
+        public async Task<ActionResult<Place>> AddPlace(Place place)
         {
-            _context.Places.Add(place);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetPlace", new { id = place.Id }, place);
-        }
-
-        // DELETE: api/Places/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePlace(int id)
-        {
-            var place = await _context.Places.FindAsync(id);
-            if (place == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest();
             }
-
-            _context.Places.Remove(place);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool PlaceExists(int id)
-        {
-            return _context.Places.Any(e => e.Id == id);
+            var thePlace = await _placeService.AddPlace(place);
+            return Ok(thePlace);
         }
     }
+
+    //// DELETE: api/Places/5
+    //[HttpDelete("{id}")]
+    //public async Task<IActionResult> DeletePlace(int id)
+    //{
+    //    var place = await _context.Places.FindAsync(id);
+    //    if (place == null)
+    //    {
+    //        return NotFound();
+    //    }
+
+    //    _context.Places.Remove(place);
+    //    await _context.SaveChangesAsync();
+
+    //    return NoContent();
+    //}
+
+    //private bool PlaceExists(int id)
+    //{
+    //    return _context.Places.Any(e => e.Id == id);
+    //}
 }
+
