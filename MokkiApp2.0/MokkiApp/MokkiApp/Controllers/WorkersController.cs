@@ -6,32 +6,34 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MokkiApp.Models;
+using MokkiApp.Services;
 
 namespace MokkiApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class WorkersController : ControllerBase
     {
-        private readonly MokkiAppDbContext _context;
+        private readonly IWorkerService _workerService;
 
-        public WorkersController(MokkiAppDbContext context)
+        public WorkersController(IWorkerService workerService)
         {
-            _context = context;
+            _workerService = workerService ?? throw new ArgumentNullException(nameof(workerService));
         }
 
         // GET: api/Workers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Worker>>> GetWorkers()
+        public async Task<ActionResult<IEnumerable<Job>>> GetAllWorkersAsync()
         {
-            return await _context.Workers.ToListAsync();
+            return Ok(await _workerService.GetAllWorkersAsync());
         }
 
         // GET: api/Workers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Worker>> GetWorker(int id)
+        public async Task<ActionResult<Worker>> GetWorkerAsync(int id)
         {
-            var worker = await _context.Workers.FindAsync(id);
+            var worker = await _workerService.GetWorkerAsync(id);
 
             if (worker == null)
             {
@@ -43,63 +45,57 @@ namespace MokkiApp.Controllers
 
         // PUT: api/Workers/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutWorker(int id, Worker worker)
+        public async Task<IActionResult> UpdateWorker(int id, Worker worker)
         {
-            if (id != worker.Id)
+            if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-
-            _context.Entry(worker).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                var theWorker = await _workerService.UpdateWorker(id, worker);
+                return Ok(theWorker);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception e)
             {
-                if (!WorkerExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest(e.Message);
             }
-
-            return NoContent();
         }
-
         // POST: api/Workers
         [HttpPost]
-        public async Task<ActionResult<Worker>> PostWorker(Worker worker)
+        public async Task<ActionResult<Worker>> AddWorker(Worker worker)
         {
-            _context.Workers.Add(worker);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetWorker", new { id = worker.Id }, worker);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var theWorker = await _workerService.AddWorker(worker);
+            return Ok(theWorker);
         }
 
         // DELETE: api/Workers/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWorker(int id)
+        public async Task<IActionResult> DeleteWorker([FromRoute] int id)
         {
-            var worker = await _context.Workers.FindAsync(id);
-            if (worker == null)
+            try
             {
-                return NotFound();
+                if (ModelState.IsValid)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
-
-            _context.Workers.Remove(worker);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool WorkerExists(int id)
-        {
-            return _context.Workers.Any(e => e.Id == id);
+            catch (NullReferenceException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
     }
 }

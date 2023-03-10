@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MokkiApp.Models;
+using MokkiApp.Services;
 
 namespace MokkiApp.Controllers
 {
@@ -13,25 +14,25 @@ namespace MokkiApp.Controllers
     [ApiController]
     public class ReservationsController : ControllerBase
     {
-        private readonly MokkiAppDbContext _context;
+        private readonly IReservationService _reservationService;
 
-        public ReservationsController(MokkiAppDbContext context)
+        public ReservationsController(IReservationService reservationService)
         {
-            _context = context;
+            _reservationService = reservationService ?? throw new ArgumentNullException(nameof(reservationService));
         }
 
-        // GET: api/Reservations
+        // GET: api/Jobs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Reservation>>> GetReservations()
+        public async Task<ActionResult<IEnumerable<Reservation>>> GetAllReservationsAsync()
         {
-            return await _context.Reservations.ToListAsync();
+            return Ok(await _reservationService.GetAllReservationsAsync());
         }
 
         // GET: api/Reservations/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Reservation>> GetReservation(int id)
+        public async Task<ActionResult<Reservation>> GetReservationAsync(int id)
         {
-            var reservation = await _context.Reservations.FindAsync(id);
+            var reservation = await _reservationService.GetReservationAsync(id);
 
             if (reservation == null)
             {
@@ -43,63 +44,60 @@ namespace MokkiApp.Controllers
 
         // PUT: api/Reservations/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutReservation(int id, Reservation reservation)
+        public async Task<ActionResult> UpdateReservation(int id, Reservation reservation)
         {
-            if (id != reservation.Id)
+
+            if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            _context.Entry(reservation).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                var theReservation = await _reservationService.UpdateReservation(id, reservation);
+                return Ok(theReservation);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception e)
             {
-                if (!ReservationExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest(e.Message);
             }
-
-            return NoContent();
         }
 
         // POST: api/Reservations
         [HttpPost]
-        public async Task<ActionResult<Reservation>> PostReservation(Reservation reservation)
+        public async Task<ActionResult<Reservation>> AddReservation(Reservation reservation)
         {
-            _context.Reservations.Add(reservation);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetReservation", new { id = reservation.Id }, reservation);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var theReservation = await _reservationService.AddReservation(reservation);
+            return Ok(theReservation);
         }
 
         // DELETE: api/Reservations/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteReservation(int id)
+        public async Task<ActionResult> DeleteReservation(int id)
         {
-            var reservation = await _context.Reservations.FindAsync(id);
-            if (reservation == null)
+            try
             {
-                return NotFound();
+                if (ModelState.IsValid)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
-
-            _context.Reservations.Remove(reservation);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool ReservationExists(int id)
-        {
-            return _context.Reservations.Any(e => e.Id == id);
+            catch (NullReferenceException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
     }
 }
