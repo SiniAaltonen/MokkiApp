@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MokkiApp.Models;
 using MokkiApp.Repositories;
 
@@ -37,20 +38,17 @@ namespace MokkiApp.Services
         }
         public async Task<Place> AddPlace(Place place)
         {
-            return _placeRepository.AddPlace(place);
-            //var thePlace = await _placeRepository.GetAllPlacesAsync();
-            //if (!await _placeRepository.PlaceExistsAsync(place.Id))
-            //{
-            //    Place place1 = new Place();
-            //    Place.Id = place1.Id;
+            var theJob = await _placeRepository.GetAllPlacesAsync();
+            if (!await _placeRepository.PlaceExistsAsync(place.Id))
+            {
+                Place place1 = new Place();
+                place.Id = place1.Id;
 
-            //    return _placeRepository.AddPlace(place);
+                await _placeRepository.AddPlace(place1);
 
-
-
-            //    return place1;
-            //}
-            //throw new Exception("Product exists");
+                return place1;
+            }
+            throw new Exception("Place exists");
         }
     }
 }

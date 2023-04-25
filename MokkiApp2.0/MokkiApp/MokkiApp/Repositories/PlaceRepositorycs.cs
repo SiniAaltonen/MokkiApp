@@ -31,5 +31,10 @@ namespace MokkiApp.Repositories
             _context.Places.Add(place);
             return _context.SaveChangesAsync();
         }
+
+        public async Task<bool> PlaceExistsAsync(int placeId)
+        {
+            return await _context.Places.AnyAsync();
+        }
     }
 }

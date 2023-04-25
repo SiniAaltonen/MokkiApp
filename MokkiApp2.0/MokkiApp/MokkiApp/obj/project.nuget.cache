@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "WFihCvzytMnGEeWYjyOA+6ggwI3aLTrZ34Zw1vz1yih8wSVLAeXQnytng81mZrDpDX7b2F+riGhT+HgdKsHxfQ==",
+  "dgSpecHash": "2jiABvrYYjBVsQuGJyOt+31LTqNV4TtENDv6zY2BqQbb7bqvpdgXY4Vra69FIYsGix1hBaUZOocJ2UukjIVxyg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\sinia\\source\\repos\\MokkiApp\\MokkiApp2.0\\MokkiApp\\MokkiApp\\MokkiApp.csproj",
+  "projectFilePath": "C:\\Users\\sinia\\source\\repos\\MokkiApp2.0\\MokkiApp2.0\\MokkiApp\\MokkiApp\\MokkiApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sinia\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\sinia\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

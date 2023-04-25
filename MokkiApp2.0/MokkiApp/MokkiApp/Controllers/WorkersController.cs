@@ -24,9 +24,9 @@ namespace MokkiApp.Controllers
 
         // GET: api/Workers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Job>>> GetAllWorkersAsync()
+        public async Task<List<Worker>> GetAllWorkersAsync()
         {
-            return Ok(await _workerService.GetAllWorkersAsync());
+            return await _workerService.GetAllWorkersAsync();
         }
 
         // GET: api/Workers/5
@@ -91,10 +91,6 @@ namespace MokkiApp.Controllers
             catch (NullReferenceException e)
             {
                 return NotFound(e.Message);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, e.Message);
             }
         }
     }

@@ -6778,11 +6778,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\sinia\\Source\\Repos\\MokkiApp\\MokkiApp2.0\\MokkiApp\\MokkiAppTests\\MokkiAppTests.csproj",
+      "projectUniqueName": "C:\\Users\\sinia\\source\\repos\\MokkiApp2.0\\MokkiApp2.0\\MokkiApp\\MokkiAppTests\\MokkiAppTests.csproj",
       "projectName": "MokkiAppTests",
-      "projectPath": "C:\\Users\\sinia\\Source\\Repos\\MokkiApp\\MokkiApp2.0\\MokkiApp\\MokkiAppTests\\MokkiAppTests.csproj",
+      "projectPath": "C:\\Users\\sinia\\source\\repos\\MokkiApp2.0\\MokkiApp2.0\\MokkiApp\\MokkiAppTests\\MokkiAppTests.csproj",
       "packagesPath": "C:\\Users\\sinia\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\sinia\\Source\\Repos\\MokkiApp\\MokkiApp2.0\\MokkiApp\\MokkiAppTests\\obj\\",
+      "outputPath": "C:\\Users\\sinia\\source\\repos\\MokkiApp2.0\\MokkiApp2.0\\MokkiApp\\MokkiAppTests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

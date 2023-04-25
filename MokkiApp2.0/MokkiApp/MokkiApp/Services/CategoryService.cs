@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MokkiApp.Models;
 using MokkiApp.Repositories;
 using NuGet.Protocol.Core.Types;
@@ -16,18 +17,15 @@ namespace MokkiApp.Services
         public async Task<Category> AddCategory(Category category)
         {
             var theCategory = await _categoryRepository.GetAllAsync();
-            if (theCategory == null)
+            if (!await _categoryRepository.CategoryExistsAsync(category.Name))
             {
-                Category category1 = new Category();
-                category.Name= category1.Name;
+               await _categoryRepository.AddCategory(category);
 
-                await _categoryRepository.AddCategory(category1);
-
-                return category1;
+                return category;
             }
-            throw new Exception("Priduct exists");
+            throw new Exception("Category exists");
         }
-
+        
         public async Task<List<Category>> GetAllAsync()
         {
            return await _categoryRepository.GetAllAsync();
@@ -54,15 +52,18 @@ namespace MokkiApp.Services
             throw new ArgumentException(nameof(id));
         }
 
-        public async Task<int> DeleteCategory(int id)
+        public async Task<bool> DeleteCategory(int id)
         {
-
-            var category = await _categoryRepository.GetAsync(id);
-            if (category != null)
+            if (id < 1)
             {
-                _categoryRepository.DeleteCategory(category);
+                throw new ArgumentException("Id must be a positive integer");
             }
-            return id;
+            if (await _categoryRepository.DeleteCategory(id))
+            {
+                return true;
+            }
+            return false;
         }
+          
     }
 }

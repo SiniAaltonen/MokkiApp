@@ -11,6 +11,6 @@ namespace MokkiApp.Services
 
         Task<Category> UpdateCategory(int id, Category category);
 
-        Task<int> DeleteCategory(int id);
+        Task<bool> DeleteCategory(int id);
     }
 }

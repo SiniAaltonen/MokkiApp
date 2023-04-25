@@ -11,6 +11,8 @@ namespace MokkiApp.Repositories
 
         Task <int> UpdateCategory(Category category);
 
-        Task<int> DeleteCategory(Category category);
+        Task<bool> DeleteCategory(int id);
+
+        Task<bool> CategoryExistsAsync(string categoryName);
     }
 }

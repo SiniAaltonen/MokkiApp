@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\sinia\\source\\repos\\MokkiApp\\MokkiApp2.0\\MokkiApp\\MokkiApp\\MokkiApp.csproj": {}
+    "C:\\Users\\sinia\\source\\repos\\MokkiApp2.0\\MokkiApp2.0\\MokkiApp\\MokkiApp\\MokkiApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\sinia\\source\\repos\\MokkiApp\\MokkiApp2.0\\MokkiApp\\MokkiApp\\MokkiApp.csproj": {
+    "C:\\Users\\sinia\\source\\repos\\MokkiApp2.0\\MokkiApp2.0\\MokkiApp\\MokkiApp\\MokkiApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sinia\\source\\repos\\MokkiApp\\MokkiApp2.0\\MokkiApp\\MokkiApp\\MokkiApp.csproj",
+        "projectUniqueName": "C:\\Users\\sinia\\source\\repos\\MokkiApp2.0\\MokkiApp2.0\\MokkiApp\\MokkiApp\\MokkiApp.csproj",
         "projectName": "MokkiApp",
-        "projectPath": "C:\\Users\\sinia\\source\\repos\\MokkiApp\\MokkiApp2.0\\MokkiApp\\MokkiApp\\MokkiApp.csproj",
+        "projectPath": "C:\\Users\\sinia\\source\\repos\\MokkiApp2.0\\MokkiApp2.0\\MokkiApp\\MokkiApp\\MokkiApp.csproj",
         "packagesPath": "C:\\Users\\sinia\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sinia\\source\\repos\\MokkiApp\\MokkiApp2.0\\MokkiApp\\MokkiApp\\obj\\",
+        "outputPath": "C:\\Users\\sinia\\source\\repos\\MokkiApp2.0\\MokkiApp2.0\\MokkiApp\\MokkiApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

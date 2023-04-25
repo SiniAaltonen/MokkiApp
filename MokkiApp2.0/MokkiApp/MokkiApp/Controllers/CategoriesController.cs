@@ -79,27 +79,44 @@ namespace MokkiApp.Controllers
 
         // DELETE: api/Categories/
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Category>> DeleteCategory([FromRoute] int id)
+        public async Task<ActionResult<Category>> DeleteCategory([FromRoute]int id)
         {
             try
             {
-                if (ModelState.IsValid)
+                if (await _categoryService.DeleteCategory(id))
                 {
                     return NoContent();
                 }
-                else
-                {
-                    return NotFound();
-                }
+                else return NotFound("Id not found");
             }
-            catch (NullReferenceException e)
+            catch (ArgumentException e)
             {
-                return NotFound(e.Message);
+                return BadRequest(e.Message);
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 return StatusCode(500, e.Message);
             }
+
+            //try
+            //{
+            //    if (ModelState.IsValid)
+            //    {
+            //        return NoContent();
+            //    }
+            //    else
+            //    {
+            //        return NotFound();
+            //    }
+            //}
+            //catch (NullReferenceException e)
+            //{
+            //    return NotFound(e.Message);
+            //}
+            //catch (Exception e)
+            //{
+            //    return StatusCode(500, e.Message);
+            //}
         }
     }
 }

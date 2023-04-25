@@ -11,5 +11,7 @@ namespace MokkiApp.Repositories
         Task<int> UpdatePlace(Place place);
 
         Task<int> AddPlace(Place place);
+
+        Task<bool> PlaceExistsAsync(int placeId);
     }
 }
